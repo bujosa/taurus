@@ -1,6 +1,7 @@
 use clap::{builder::PossibleValue, command, Args, Parser, Subcommand, ValueEnum};
 
-use crate::cmd;
+use crate::cmd::{self, coin::MarketDataResponse};
+use serde::Serialize;
 
 #[derive(Parser, Debug)]
 #[command()]
@@ -92,12 +93,14 @@ impl ValueEnum for Currencies {
     }
 }
 
-pub fn parse(coin_command: CoinCommand) -> Result<(), String> {
-    let res = match coin_command.command {
-        CoinSubCommand::Markets(cmd) => {
-            cmd::coin::markets(cmd).unwrap();
-        }
-    };
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub enum CoinResult {
+    Markets(Vec<MarketDataResponse>),
+}
 
-    return Ok(res);
+pub fn parse(coin_command: CoinCommand) -> Result<CoinResult, anyhow::Error> {
+    match coin_command.command {
+        CoinSubCommand::Markets(cmd) => cmd::coin::markets(cmd).map(CoinResult::Markets),
+    }
 }

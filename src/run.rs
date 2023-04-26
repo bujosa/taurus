@@ -1,9 +1,9 @@
 use clap::{command, Parser, Subcommand};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 use crate::{
     cli::coin::{self, CoinCommand, CoinResult},
-    cmd::ping::{self, PingResult},
+    cmd::ping::{self},
 };
 
 #[derive(Parser, Debug)]
@@ -55,7 +55,10 @@ pub fn run() {
     }
 
     let res = match cli.command {
-        Some(Command::Coin(cmd)) => CliResult::Coin(coin::parse(cmd).unwrap()),
+        Some(Command::Coin(cmd)) => {
+            let CoinResult::Markets(markets) = coin::parse(cmd).unwrap();
+            markets
+        }
         Some(Command::Simple(_)) => todo!(),
 
         None => todo!(),
