@@ -1,34 +1,28 @@
-pub const BASE_URL: String = "https://api.coingecko.com/api/v3/".to_string();
+pub const BASE_URL: &str = "https://api.coingecko.com/api/v3/";
 
-pub fn get_url(path: &str) -> String {
-    format!("{}{}", BASE_URL, path)
-}
-
-#[derive(Debug, Clone)]
-pub enum Currencies {
-    Usd,
-    Eur,
-    Gbp,
-    Jpy,
-}
-
-impl Currencies {
-    fn to_string(&self) -> &'static str {
-        match self {
-            Currencies::Usd => "usd",
-            Currencies::Eur => "eur",
-            Currencies::Gbp => "gbp",
-            Currencies::Jpy => "jpy",
+pub fn get_url(path: &str, params: Option<&[(&str, &str)]>) -> String {
+    let query_string = match params {
+        Some(params) => {
+            let params: Vec<String> = params
+                .iter()
+                .map(|(key, value)| format!("{}={}", key, value))
+                .collect();
+            format!("?{}", params.join("&"))
         }
-    }
-}
+        None => "".to_string(),
+    };
 
+    format!("{}{}{}", BASE_URL, path, query_string)
+}
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_get_url() {
-        assert_eq!(get_url("ping"), "https://api.coingecko.com/api/v3/ping");
+        assert_eq!(
+            get_url("ping", None),
+            "https://api.coingecko.com/api/v3/ping"
+        );
     }
 }
