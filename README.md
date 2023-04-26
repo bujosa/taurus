@@ -22,12 +22,12 @@ taurus --help
 
 ## Work in progress
 
-- [ ] Ping
+- [x] Ping
 
 - [ ] Coins:
 
   - [ ] list
-  - [ ] markets
+  - [x] markets
 
 - [ ] Categories:
 
