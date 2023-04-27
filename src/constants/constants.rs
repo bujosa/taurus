@@ -25,4 +25,15 @@ mod tests {
             "https://api.coingecko.com/api/v3/ping"
         );
     }
+
+    #[test]
+    fn test_get_url_with_params() {
+        assert_eq!(
+            get_url(
+                "coins/markets",
+                Some(&[("vs_currency", "usd"), ("ids", "bitcoin")])
+            ),
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin"
+        );
+    }
 }
