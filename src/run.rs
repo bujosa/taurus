@@ -2,7 +2,10 @@ use clap::{command, Parser, Subcommand};
 use serde::Serialize;
 
 use crate::{
-    cli::coin::{self, CoinCommand, CoinResult},
+    cli::{
+        category::{self, CategoryCommand, CategoryResult},
+        coin::{self, CoinCommand, CoinResult},
+    },
     cmd::ping::{self},
 };
 
@@ -26,6 +29,11 @@ struct Opts {
 #[derive(Subcommand, Debug)]
 #[command()]
 enum Command {
+    /// Category command to get the list of the categories and the market data
+    /// for each category
+    #[command()]
+    Category(CategoryCommand),
+
     /// Coin command to get the list of the coins and the market data
     #[command()]
     Coin(CoinCommand),
@@ -43,6 +51,7 @@ pub enum NoSubCommand {}
 #[serde(untagged)]
 pub enum CliResult {
     Coin(CoinResult),
+    Category(CategoryResult),
 }
 
 pub fn run() {
@@ -55,13 +64,15 @@ pub fn run() {
     }
 
     let res = match cli.command {
+        Some(Command::Category(cmd)) => {
+            let res = category::parse(cmd).unwrap();
+            CliResult::Category(res)
+        }
         Some(Command::Coin(cmd)) => {
             let res = coin::parse(cmd).unwrap();
             CliResult::Coin(res)
         }
-
         Some(Command::Simple(_)) => todo!(),
-
         None => todo!(),
     };
 
