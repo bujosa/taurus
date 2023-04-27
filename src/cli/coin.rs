@@ -1,17 +1,20 @@
 use clap::{builder::PossibleValue, command, Args, Parser, Subcommand, ValueEnum};
 
-use crate::cmd::{self, coin::MarketDataResponse};
+use crate::cmd::{
+    self,
+    coin::{CoinResponse, MarketDataResponse},
+};
 use serde::Serialize;
 
 #[derive(Parser, Debug)]
 #[command()]
 pub struct CoinCommand {
     /// Return the list of the coins
-    #[arg(long, short)]
-    list: Option<bool>,
+    #[arg(long, short, required = false, default_value = "0")]
+    list: i32,
 
     #[command(subcommand)]
-    command: CoinSubCommand,
+    command: Option<CoinSubCommand>,
 }
 
 #[derive(Subcommand, Debug)]
@@ -97,10 +100,16 @@ impl ValueEnum for Currencies {
 #[serde(rename_all = "camelCase")]
 pub enum CoinResult {
     Markets(Vec<MarketDataResponse>),
+    Coins(Vec<CoinResponse>),
 }
 
 pub fn parse(coin_command: CoinCommand) -> Result<CoinResult, anyhow::Error> {
+    if coin_command.list > 0 {
+        return Ok(CoinResult::Coins(cmd::coin::list(coin_command.list)?));
+    }
+
     match coin_command.command {
-        CoinSubCommand::Markets(cmd) => cmd::coin::markets(cmd).map(CoinResult::Markets),
+        Some(CoinSubCommand::Markets(cmd)) => cmd::coin::markets(cmd).map(CoinResult::Markets),
+        None => todo!(),
     }
 }

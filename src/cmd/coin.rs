@@ -38,6 +38,20 @@ pub fn markets(get_market_args: GetMarketsArgs) -> Result<Vec<MarketDataResponse
     Ok(res)
 }
 
+pub fn list(value: i32) -> Result<Vec<CoinResponse>, anyhow::Error> {
+    let body: String = ureq::get(&get_url("coins/list", None))
+        .call()?
+        .into_string()?;
+
+    let res: Vec<CoinResponse> = serde_json::from_str::<Vec<CoinResponse>>(&body)
+        .unwrap()
+        .into_iter()
+        .take(value as usize)
+        .collect();
+
+    Ok(res)
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct MarketDataResponse {
     id: String,
@@ -65,4 +79,11 @@ pub struct MarketDataResponse {
     atl_change_percentage: f64,
     atl_date: String,
     last_updated: String,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct CoinResponse {
+    id: String,
+    symbol: String,
+    name: String,
 }

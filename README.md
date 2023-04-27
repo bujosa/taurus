@@ -26,8 +26,9 @@ taurus --help
 
 - [ ] Coins:
 
-  - [ ] list
+  - [x] list
   - [x] markets
+  - [ ] id
 
 - [ ] Categories:
 

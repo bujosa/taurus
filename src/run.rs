@@ -56,13 +56,15 @@ pub fn run() {
 
     let res = match cli.command {
         Some(Command::Coin(cmd)) => {
-            let CoinResult::Markets(markets) = coin::parse(cmd).unwrap();
-            markets
+            let res = coin::parse(cmd).unwrap();
+            CliResult::Coin(res)
         }
+
         Some(Command::Simple(_)) => todo!(),
 
         None => todo!(),
     };
 
+    // Todo export result to json file
     println!("{:?}", res);
 }
