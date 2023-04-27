@@ -2,6 +2,9 @@
 
 Taurus is Wraper for coingeko API to get crypto currency data. It is written in rust and it is a cli.
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg) 
+![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
+
 ## Overview
 
 ```sh
