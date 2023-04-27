@@ -7,18 +7,19 @@ Taurus is Wraper for coingeko API to get crypto currency data. It is written in 
 ```sh
 A simple cli for coingecko api v3 written in rust
 
-Usage: taurus.exe [OPTIONS] [COMMAND]
+Usage: taurus [OPTIONS] [COMMAND]
 
 Commands:
-  coin    Coin command to get the list of the coins and the market data
-  simple  Simple command to get the current price of a coin, and other data
+  category  Category command to get the list of the categories and the market data for each category
+  coin      Coin command to get the list of the coins and the market data
+  simple    Simple command to get the current price of a coin, and other data
 
 Options:
   -p, --ping     Ping the api
   -h, --help     Print help
   -V, --version  Print version
 
-Usage: taurus.exe coin [OPTIONS] [COMMAND]
+Usage: taurus coin [OPTIONS] [COMMAND]
 
 Commands:
   markets  Return the list of the market data
@@ -50,7 +51,7 @@ Options:
 
 Category command to get the list of the categories and the market data for each category
 
-Usage: taurus.exe category [OPTIONS]
+Usage: taurus category [OPTIONS]
 
 Options:
   -l, --list <LIST>                Return the list of the categories [default: 0]
