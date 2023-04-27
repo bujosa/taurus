@@ -71,13 +71,19 @@ taurus --help
   - [x] markets
   - [ ] id
 
-- [ ] Categories:
+- [x] Categories:
 
-  - [ ] list
-  - [ ] categories
+  - [x] list
+  - [x] categories
 
 - [ ] Exchanges:
+
   - [ ] exchanges
   - [ ] list
   - [ ] id
   - [ ] volume_chart
+
+- [ ] Simple:
+  - [ ] price
+  - [ ] token_price
+  - [ ] supported_vs_currencies
