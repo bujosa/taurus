@@ -97,3 +97,11 @@ taurus --help
   - [ ] price
   - [ ] token_price
   - [ ] supported_vs_currencies
+
+## License
+
+taurus is licensed under the MIT license. Please read the [LICENSE](LICENSE) file in this repository for more information.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
