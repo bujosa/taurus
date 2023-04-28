@@ -2,7 +2,7 @@ use clap::{builder::PossibleValue, command, Args, Parser, Subcommand, ValueEnum}
 
 use crate::cmd::{
     self,
-    coin::{CoinResponse, MarketDataResponse},
+    coin::{CoinByIdResponse, CoinResponse, MarketDataResponse},
 };
 use serde::Serialize;
 
@@ -22,6 +22,48 @@ pub struct CoinCommand {
 pub enum CoinSubCommand {
     /// Return the list of the market data
     Markets(GetMarketsArgs),
+
+    /// Return one coin by id
+    Id(GetCoinIdArgs),
+}
+
+#[derive(Args, Debug)]
+pub struct GetCoinIdArgs {
+    /// Indicate the id of the coin to use
+    #[arg(long, short, required = true)]
+    pub id: String,
+
+    /// Indicate the localization to use
+    #[arg(long, short, default_value = "true")]
+    pub localization: String,
+
+    /// Indicate if the tickers should be returned
+    #[arg(long, short, default_value = "true")]
+    pub tickers: bool,
+
+    /// Indicate if the market data should be returned
+    /// The default value is true
+    #[arg(long, short, default_value = "true")]
+    pub market_data: bool,
+
+    /// Indicate if the community data should be returned
+    /// The default value is true
+    /// Possible values are: true, false
+    #[arg(long, short, default_value = "true")]
+    pub community_data: bool,
+
+    /// Indicate if the developer data should be returned
+    /// The default value is true
+    /// Possible values are: true, false
+    #[arg(long, short, default_value = "true")]
+    pub developer_data: bool,
+
+    /// Indicate if the sparkline should be returned
+    /// The default value is false
+    /// Possible values are: true, false
+    /// The sparkline is only available for the last 7 days
+    #[arg(long, short, default_value = "false")]
+    pub sparkline: bool,
 }
 
 #[derive(Args, Debug)]
@@ -101,6 +143,7 @@ impl ValueEnum for Currencies {
 pub enum CoinResult {
     Markets(Vec<MarketDataResponse>),
     Coins(Vec<CoinResponse>),
+    Coin(CoinByIdResponse),
 }
 
 pub fn parse(coin_command: CoinCommand) -> Result<CoinResult, anyhow::Error> {
@@ -110,6 +153,7 @@ pub fn parse(coin_command: CoinCommand) -> Result<CoinResult, anyhow::Error> {
 
     match coin_command.command {
         Some(CoinSubCommand::Markets(cmd)) => cmd::coin::markets(cmd).map(CoinResult::Markets),
+        Some(CoinSubCommand::Id(cmd)) => cmd::coin::coin(cmd).map(CoinResult::Coin),
         None => todo!(),
     }
 }
