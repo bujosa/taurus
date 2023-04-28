@@ -1,6 +1,7 @@
 mod cli;
 mod cmd;
 mod constants;
+mod models;
 
 pub mod run;
 

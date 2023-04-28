@@ -79,11 +79,11 @@ taurus --help
 
 - [x] Ping
 
-- [ ] Coins:
+- [x] Coins:
 
   - [x] list
   - [x] markets
-  - [ ] id
+  - [x] id
 
 - [x] Categories:
 
