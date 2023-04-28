@@ -54,12 +54,30 @@ pub fn list(value: i32) -> Result<Vec<CoinResponse>, anyhow::Error> {
 }
 
 pub fn coin(get_coin_id_args: GetCoinIdArgs) -> Result<CoinByIdResponse, anyhow::Error> {
-    let community_data = get_coin_id_args.community_data.to_string();
-    let developer_data = get_coin_id_args.developer_data.to_string();
-    let sparkline = get_coin_id_args.sparkline.to_string();
-    let market_data = get_coin_id_args.market_data.to_string();
-    let tickers = get_coin_id_args.tickers.to_string();
-    let localization = get_coin_id_args.localization.to_string();
+    let community_data = get_coin_id_args
+        .community_data
+        .expect("community_data not provided")
+        .to_string();
+    let developer_data = get_coin_id_args
+        .developer_data
+        .expect("developer_data not provided")
+        .to_string();
+    let sparkline = get_coin_id_args
+        .sparkline
+        .expect("sparkline not provided")
+        .to_string();
+    let market_data = get_coin_id_args
+        .market_data
+        .expect("market_data not provided")
+        .to_string();
+    let tickers = get_coin_id_args
+        .tickers
+        .expect("tickers not provided")
+        .to_string();
+    let localization = get_coin_id_args
+        .localization
+        .expect("localization not provided")
+        .to_string();
 
     let binding: &[(&str, &str)] = &[
         ("localization", localization.as_str()),
@@ -115,12 +133,12 @@ mod tests {
     fn test_coin() {
         let get_coin_id_args = GetCoinIdArgs {
             id: "bitcoin".to_string(),
-            localization: "true".to_string(),
-            tickers: true,
-            market_data: true,
-            community_data: true,
-            developer_data: true,
-            sparkline: true,
+            localization: Some(true),
+            tickers: Some(true),
+            market_data: Some(true),
+            community_data: Some(true),
+            developer_data: Some(true),
+            sparkline: Some(true),
         };
 
         let res = coin(get_coin_id_args).unwrap();

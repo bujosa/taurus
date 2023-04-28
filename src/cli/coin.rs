@@ -36,33 +36,33 @@ pub struct GetCoinIdArgs {
     /// Indicate the localization to use
     /// The default value is true
     #[arg(long, short, default_value = "true")]
-    pub localization: String,
+    pub localization: Option<bool>,
 
     /// Indicate if the tickers should be returned
     /// The default value is true
     #[arg(long, short, default_value = "true")]
-    pub tickers: bool,
+    pub tickers: Option<bool>,
 
     /// Indicate if the market data should be returned
     /// The default value is true
     #[arg(long, short, default_value = "true")]
-    pub market_data: bool,
+    pub market_data: Option<bool>,
 
     /// Indicate if the community data should be returned
     /// The default value is true
     #[arg(long, short, default_value = "true")]
-    pub community_data: bool,
+    pub community_data: Option<bool>,
 
     /// Indicate if the developer data should be returned
     /// The default value is true
     #[arg(long, short, default_value = "true")]
-    pub developer_data: bool,
+    pub developer_data: Option<bool>,
 
     /// Indicate if the sparkline should be returned
     /// The default value is false
     /// The sparkline is only available for the last 7 days
     #[arg(long, short, default_value = "false")]
-    pub sparkline: bool,
+    pub sparkline: Option<bool>,
 }
 
 #[derive(Args, Debug)]
@@ -149,6 +149,8 @@ pub fn parse(coin_command: CoinCommand) -> Result<CoinResult, anyhow::Error> {
     if coin_command.list > 0 {
         return Ok(CoinResult::Coins(cmd::coin::list(coin_command.list)?));
     }
+
+    println!("{:?}", coin_command.command);
 
     match coin_command.command {
         Some(CoinSubCommand::Markets(cmd)) => cmd::coin::markets(cmd).map(CoinResult::Markets),
