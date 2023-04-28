@@ -1,10 +1,7 @@
-use std::collections::HashMap;
-
-use serde::{Deserialize, Serialize};
-
 use crate::{
     cli::coin::{GetCoinIdArgs, GetMarketsArgs},
     constants::constants::get_url,
+    models::coin::{CoinByIdResponse, CoinResponse, MarketDataResponse},
 };
 
 use super::common::currencies_to_string;
@@ -34,7 +31,6 @@ pub fn markets(get_market_args: GetMarketsArgs) -> Result<Vec<MarketDataResponse
         .call()?
         .into_string()?;
 
-    // The response is a vec of MarketDataResponse
     let res: Vec<MarketDataResponse> = serde_json::from_str::<Vec<MarketDataResponse>>(&body)
         .unwrap()
         .into_iter()
@@ -80,84 +76,11 @@ pub fn coin(get_coin_id_args: GetCoinIdArgs) -> Result<CoinByIdResponse, anyhow:
 
     let body: String = ureq::get(&get_url(&path, params)).call()?.into_string()?;
 
-    // The response is a vec of MarketDataResponse
     let res: CoinByIdResponse = serde_json::from_str::<CoinByIdResponse>(&body).unwrap();
 
     Ok(res)
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct MarketDataResponse {
-    id: String,
-    symbol: String,
-    name: String,
-    image: String,
-    current_price: Option<f64>,
-    market_cap: Option<f64>,
-    market_cap_rank: Option<u32>,
-    fully_diluted_valuation: Option<f64>,
-    total_volume: Option<f64>,
-    high_24h: Option<f64>,
-    low_24h: Option<f64>,
-    price_change_24h: Option<f64>,
-    price_change_percentage_24h: Option<f64>,
-    market_cap_change_24h: Option<f64>,
-    market_cap_change_percentage_24h: Option<f64>,
-    circulating_supply: Option<f64>,
-    total_supply: Option<f64>,
-    max_supply: Option<f64>,
-    ath: Option<f64>,
-    ath_change_percentage: Option<f64>,
-    ath_date: String,
-    atl: Option<f64>,
-    atl_change_percentage: Option<f64>,
-    atl_date: String,
-    last_updated: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CoinResponse {
-    id: String,
-    symbol: String,
-    name: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CoinByIdResponse {
-    id: String,
-    symbol: String,
-    name: String,
-    asset_platform_id: Option<String>,
-    block_time_in_minutes: Option<u32>,
-    hashing_algorithm: Option<String>,
-    categories: Option<Vec<String>>,
-    public_notice: Option<String>,
-    additional_notices: Option<Vec<String>>,
-    localization: Option<HashMap<String, String>>,
-    description: Option<HashMap<String, String>>,
-    links: Option<HashMap<String, String>>,
-    image: Option<HashMap<String, String>>,
-    country_origin: Option<String>,
-    genesis_date: Option<String>,
-    sentiment_votes_up_percentage: Option<f32>,
-    sentiment_votes_down_percentage: Option<f32>,
-    market_cap_rank: Option<u32>,
-    coingecko_rank: Option<u32>,
-    coingecko_score: Option<f32>,
-    developer_score: Option<f32>,
-    community_score: Option<f32>,
-    liquidity_score: Option<f32>,
-    public_interest_score: Option<f32>,
-    market_data: Option<HashMap<String, String>>,
-    community_data: Option<HashMap<String, String>>,
-    developer_data: Option<HashMap<String, String>>,
-    public_interest_stats: Option<HashMap<String, String>>,
-    status_updates: Option<Vec<String>>,
-    last_updated: Option<String>,
-    tickers: Option<Vec<String>>,
-}
-
-// Add test for all functions
 #[cfg(test)]
 mod tests {
     use crate::cli::coin::Currencies;
@@ -186,5 +109,22 @@ mod tests {
         let res = list(10).unwrap();
 
         assert_eq!(res.len(), 10);
+    }
+
+    #[test]
+    fn test_coin() {
+        let get_coin_id_args = GetCoinIdArgs {
+            id: "bitcoin".to_string(),
+            localization: "true".to_string(),
+            tickers: true,
+            market_data: true,
+            community_data: true,
+            developer_data: true,
+            sparkline: true,
+        };
+
+        let res = coin(get_coin_id_args).unwrap();
+
+        assert_eq!(res.id, "bitcoin");
     }
 }

@@ -1,6 +1,8 @@
-use serde::{Deserialize, Serialize};
-
-use crate::{cli::category::CategoryOrders, constants::constants::get_url};
+use crate::{
+    cli::category::CategoryOrders,
+    constants::constants::get_url,
+    models::category::{CategoryMarketDataResponse, CategoryResponse},
+};
 
 use super::common::categories_orders_to_string;
 
@@ -17,7 +19,6 @@ pub fn market_data(
         .call()?
         .into_string()?;
 
-    // The response is a vec of MarketDataResponse
     let res: Vec<CategoryMarketDataResponse> =
         serde_json::from_str::<Vec<CategoryMarketDataResponse>>(&body)
             .unwrap()
@@ -39,24 +40,6 @@ pub fn list(value: i32) -> Result<Vec<CategoryResponse>, anyhow::Error> {
         .collect();
 
     Ok(res)
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CategoryMarketDataResponse {
-    id: String,
-    name: String,
-    market_cap: f64,
-    market_cap_change_24h: f64,
-    content: String,
-    top_3_coins: Vec<String>,
-    volume_24h: f64,
-    updated_at: String,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct CategoryResponse {
-    category_id: String,
-    name: String,
 }
 
 #[cfg(test)]

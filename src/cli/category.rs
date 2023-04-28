@@ -2,9 +2,9 @@ use clap::{builder::PossibleValue, command, Parser, ValueEnum};
 
 use serde::Serialize;
 
-use crate::cmd::{
-    self,
-    category::{CategoryMarketDataResponse, CategoryResponse},
+use crate::{
+    cmd::{self},
+    models::category::{CategoryMarketDataResponse, CategoryResponse},
 };
 
 #[derive(Parser, Debug)]

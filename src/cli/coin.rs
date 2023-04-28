@@ -1,8 +1,8 @@
 use clap::{builder::PossibleValue, command, Args, Parser, Subcommand, ValueEnum};
 
-use crate::cmd::{
-    self,
-    coin::{CoinByIdResponse, CoinResponse, MarketDataResponse},
+use crate::{
+    cmd::{self},
+    models::coin::{CoinByIdResponse, CoinResponse, MarketDataResponse},
 };
 use serde::Serialize;
 
@@ -34,10 +34,12 @@ pub struct GetCoinIdArgs {
     pub id: String,
 
     /// Indicate the localization to use
+    /// The default value is true
     #[arg(long, short, default_value = "true")]
     pub localization: String,
 
     /// Indicate if the tickers should be returned
+    /// The default value is true
     #[arg(long, short, default_value = "true")]
     pub tickers: bool,
 
@@ -48,19 +50,16 @@ pub struct GetCoinIdArgs {
 
     /// Indicate if the community data should be returned
     /// The default value is true
-    /// Possible values are: true, false
     #[arg(long, short, default_value = "true")]
     pub community_data: bool,
 
     /// Indicate if the developer data should be returned
     /// The default value is true
-    /// Possible values are: true, false
     #[arg(long, short, default_value = "true")]
     pub developer_data: bool,
 
     /// Indicate if the sparkline should be returned
     /// The default value is false
-    /// Possible values are: true, false
     /// The sparkline is only available for the last 7 days
     #[arg(long, short, default_value = "false")]
     pub sparkline: bool,
