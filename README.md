@@ -27,33 +27,12 @@ Usage: taurus coin [OPTIONS] [COMMAND]
 
 Commands:
   markets  Return the list of the market data
+  id       Return one coin by id
 
 Options:
   -l, --list <LIST>  Return the list of the coins [default: 0]
   -h, --help         Print help
-
-
-coin markets -h
-
-Options:
-  -v, --vs-currency <VS_CURRENCY>
-          Indicate the currency to use [default: usd] [possible values: usd, eur, gbp, jpy]
-  -o, --order <ORDER>
-          Indicate the order to use for the list [default: market_cap_desc]
-      --page <PAGE>
-          Indicate the page to use [default: 1]
-      --per-page <PER_PAGE>
-          Indicate the number of items to return The default value is 100 [default: 100]
-  -s, --sparkline
-          Indicate the sparkline to use The default value is false
-  -p, --price-change-percentage <PRICE_CHANGE_PERCENTAGE>
-          Indicate the price change percentage to use The default value is 24h Possible values are: 1h, 24h, 7d, 14d, 30d, 200d, 1y [default: 24h]
-  -l, --locate <LOCATE>
-          Indicate the locate to use The default value is en [default: en]
-  -h, --help
-          Print help (see more with '--help')
-
-Category command to get the list of the categories and the market data for each category
+  
 
 Usage: taurus category [OPTIONS]
 
