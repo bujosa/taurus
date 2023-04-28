@@ -150,7 +150,6 @@ struct MarketData {
     total_value_locked: Option<f64>,
     mcap_to_tvl_ratio: Option<f64>,
     fdv_to_tvl_ratio: Option<f64>,
-    roi: Option<f64>,
     ath: HashMap<String, Option<f64>>,
     ath_change_percentage: HashMap<String, Option<f64>>,
     ath_date: HashMap<String, Option<String>>,
