@@ -19,9 +19,11 @@ Commands:
   simple    Simple command to get the current price of a coin, and other data
 
 Options:
-  -p, --ping     Ping the api
-  -h, --help     Print help
-  -V, --version  Print version
+  -o, --output-type <OUTPUT_TYPE>  Type of output (console, json) [default: console] [possible values: console, json, text]
+  -f, --file-name <FILE_NAME>      Output file [default: output]
+  -p, --ping                       Ping the api
+  -h, --help                       Print help (see more with '--help')
+  -V, --version                    Print version
 
 Usage: taurus coin [OPTIONS] [COMMAND]
 
